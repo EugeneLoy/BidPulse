@@ -19,3 +19,8 @@ Getting started
 
         > re-stop
 
+
+Debugging
+========
+
+To debug use remote debugging (socket attach to port `5005`).
