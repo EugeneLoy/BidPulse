@@ -1,4 +1,4 @@
-organization  := "com.example"
+organization  := "org.bidpulse"
 
 version       := "0.1"
 

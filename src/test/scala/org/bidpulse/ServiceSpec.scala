@@ -1,18 +1,18 @@
-package com.example
+package org.bidpulse
 
 import org.specs2.mutable.Specification
 import spray.testkit.Specs2RouteTest
 import spray.http._
 import StatusCodes._
 
-class MyServiceSpec extends Specification with Specs2RouteTest with MyService {
+class ServiceSpec extends Specification with Specs2RouteTest with Service {
   def actorRefFactory = system
   
-  "MyService" should {
+  "Service" should {
 
     "return a greeting for GET requests to the root path" in {
       Get() ~> myRoute ~> check {
-        responseAs[String] must contain("Say hello")
+        responseAs[String] must contain("Hello")
       }
     }
 
