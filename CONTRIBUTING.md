@@ -24,3 +24,9 @@ Debugging
 ========
 
 To debug use remote debugging (socket attach to port `5005`).
+
+
+Ui mockups
+========
+
+can be found [here](https://moqups.com/eugeny.loy@gmail.com/NyiTxw4d).
