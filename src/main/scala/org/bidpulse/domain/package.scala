@@ -1,5 +1,7 @@
 package org.bidpulse
 
+import java.util.Date
+
 package object domain {
 
   /**
@@ -31,9 +33,23 @@ package object domain {
    */
   case class Project(
     val id: ProjectId,
-    val inList: List
+    val inList: List,
+    val createdAt: Option[Date],
+    val closingAt: Option[Date],
+    val status: Option[String],
+    val pricingType: Option[String],
+    val budgetFrom: Option[Double],
+    val budgetTo: Option[Double],
+    val budgetCurrency: Option[String],
+    val averageBid: Option[Double],
+    val country: Option[String]
+    // TODO use datetime
     // expect more fields to be added
-  )
+  ) {
+    def apply(update: ProjectUpdate[_]): Project = update match {
+      case ProjectUpdate(InList, Some(value: List)) => copy(inList = value)
+    }
+  }
 
   /**
    * Represents projects known to the system at some point in time.
@@ -42,9 +58,9 @@ package object domain {
 
   /**
    * Represents update to the field of some project.
-   * @param field
-   * @param value
-   * @tparam T
+   * @param field updated field identifier
+   * @param value updated field value
+   * @tparam T type of the field
    */
   case class ProjectUpdate[T](field: UpdateableField, value: Option[T])
 

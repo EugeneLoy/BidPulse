@@ -1,6 +1,7 @@
 package org.bidpulse.ui
 
 import org.bidpulse.domain.ProjectUpdate
+import scala.language.existentials
 
 object ClientFeedback {
 
@@ -9,6 +10,6 @@ object ClientFeedback {
   sealed trait Event
 
   // TODO this event is a dto coming from websocket and it is ok to rewise it to fit serialization needs
-  case class ProjectUpdatePublished(update: ProjectUpdate) extends Event
+  case class ProjectUpdatePublished(update: ProjectUpdate[_]) extends Event
 
 }
