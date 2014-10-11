@@ -1,6 +1,6 @@
 package org.bidpulse
 
-import java.util.Date
+import org.joda.time.DateTime
 
 package object domain {
 
@@ -34,8 +34,8 @@ package object domain {
   case class Project(
     val id: ProjectId,
     val inList: List,
-    val createdAt: Option[Date],
-    val closingAt: Option[Date],
+    val createdAt: Option[DateTime],
+    val closingAt: Option[DateTime],
     val status: Option[String],
     val pricingType: Option[String],
     val budgetFrom: Option[Double],
@@ -43,7 +43,6 @@ package object domain {
     val budgetCurrency: Option[String],
     val averageBid: Option[Double],
     val country: Option[String]
-    // TODO use datetime
     // expect more fields to be added
   ) {
     def apply(update: ProjectUpdate[_]): Project = update match {

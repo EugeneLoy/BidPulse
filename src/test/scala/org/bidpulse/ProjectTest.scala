@@ -1,7 +1,5 @@
 package org.bidpulse
 
-import java.util.Date
-
 import org.bidpulse.domain._
 import org.scalatest.{Matchers, WordSpec}
 
