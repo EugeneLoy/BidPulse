@@ -30,3 +30,9 @@ Ui mockups
 ========
 
 Can be found [here](https://moqups.com/eugeny.loy@gmail.com/NyiTxw4d).
+
+
+Architecture overview
+========
+
+![architecture overview](/docs/architecture_overview.png)
