@@ -21,7 +21,9 @@ libraryDependencies ++= {
   )
 }
 
-instrumentSettings
+scoverage.ScoverageSbtPlugin.instrumentSettings
+
+org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
 
 Revolver.settings
 
