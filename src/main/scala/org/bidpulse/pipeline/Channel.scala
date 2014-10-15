@@ -9,6 +9,7 @@ object Channel {
   sealed trait Command
   sealed trait Event
 
+  case class Init() extends Command
   case class Subscribe(actor: ActorRef, sendUpdates: Boolean) extends Command
   case class PublishProject(project: Project) extends Command
   case class PublishProjectUpdate(update: ProjectUpdate[_]) extends Command
