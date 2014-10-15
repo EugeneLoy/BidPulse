@@ -2,7 +2,7 @@ package org.bidpulse.pipeline
 
 import java.util.UUID
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Terminated, ActorRef, Props, Actor}
 import akka.actor.Actor.Receive
 
 object Pipeline {
@@ -19,7 +19,7 @@ class Pipeline(channelProps: Props, sourcesProps: Map[String, Props]) extends Ac
 
   import Pipeline._
 
-  val channel = context.actorOf(channelProps, s"channel_${UUID.randomUUID.toString}")
+  val channel = context.actorOf(channelProps, "channel")
   channel ! Channel.Init()
 
   val sources = for {
@@ -28,8 +28,14 @@ class Pipeline(channelProps: Props, sourcesProps: Map[String, Props]) extends Ac
 
   sources.foreach(_ ! Source.Init())
 
+  var publishers = Set.empty[ActorRef]
+
   override def receive: Receive = {
-    case _ =>
+    case Subscribe =>
+      publishers += context.watch(sender)
+      channel ! Channel.Subscribe(sender, sendUpdates = true)
+    case Terminated(publisher) if publishers contains publisher =>
+      publishers -= publisher
   }
 
   // TODO implement error recovery
