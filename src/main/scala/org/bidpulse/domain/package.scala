@@ -33,6 +33,7 @@ package object domain {
    */
   case class Project(
     val id: ProjectId,
+    val stateTimestamp: DateTime, // last known create/update time on the project origin-side
     val inList: List,
     val createdAt: Option[DateTime],
     val closingAt: Option[DateTime],
