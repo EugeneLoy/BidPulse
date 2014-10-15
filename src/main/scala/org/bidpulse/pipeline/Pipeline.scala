@@ -26,7 +26,7 @@ class Pipeline(channelProps: Props, sourcesProps: Map[String, Props]) extends Ac
     (name, props) <- sourcesProps
   } yield context.actorOf(props, s"${name}_${UUID.randomUUID.toString}")
 
-  sources.foreach(_ ! Source.Init())
+  sources.foreach(_ ! Source.Init(channel))
 
   var publishers = Set.empty[ActorRef]
 
