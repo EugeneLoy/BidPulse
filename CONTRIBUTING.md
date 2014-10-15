@@ -26,6 +26,12 @@ Debugging
 To debug use remote debugging (socket attach to port `5005`).
 
 
+Run code coverage
+========
+
+        $ sbt clean scoverage:test
+
+
 Ui mockups
 ========
 
