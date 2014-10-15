@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 class ProjectTest extends WordSpec with Matchers {
 
   "Project" when {
-    val project = Project(FreelancerId("id"), null, Unread, None, None, None, None, None, None, None, None, None)
+    val project = Project(FreelancerId("id"), "", "", null, Unread, None, None, None, None, None, None, None, None, None)
 
     "applied with update" should {
       "return updated project" in {

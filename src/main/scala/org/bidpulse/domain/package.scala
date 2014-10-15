@@ -32,18 +32,20 @@ package object domain {
    * Represents project.
    */
   case class Project(
-    val id: ProjectId,
-    val stateTimestamp: DateTime, // last known create/update time on the project origin-side
-    val inList: List,
-    val createdAt: Option[DateTime],
-    val closingAt: Option[DateTime],
-    val status: Option[String],
-    val pricingType: Option[String],
-    val budgetFrom: Option[Double],
-    val budgetTo: Option[Double],
-    val budgetCurrency: Option[String],
-    val averageBid: Option[Double],
-    val country: Option[String]
+    id: ProjectId,
+    title: String,
+    description: String,
+    stateTimestamp: DateTime, // last known create/update time on the project origin-side
+    inList: List,
+    createdAt: Option[DateTime],
+    closingAt: Option[DateTime],
+    status: Option[String],
+    pricingType: Option[String],
+    budgetFrom: Option[Double],
+    budgetTo: Option[Double],
+    budgetCurrency: Option[String],
+    averageBid: Option[Double],
+    country: Option[String]
     // expect more fields to be added
   ) {
     def apply(update: ProjectUpdate[_]): Project = update match {

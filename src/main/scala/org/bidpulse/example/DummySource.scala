@@ -6,6 +6,7 @@ import akka.actor.{ActorLogging, Actor, ActorRef, Cancellable}
 import org.bidpulse.domain.{FreelancerId, Project, Unread}
 import org.bidpulse.pipeline.Source.Init
 import org.bidpulse.pipeline.{Channel, Source}
+import org.joda.time.DateTime
 
 import scala.concurrent.duration._
 
@@ -28,17 +29,19 @@ class DummySource extends Actor with Source with ActorLogging {
       subscription = Some(context.system.scheduler.schedule(5 seconds, 5 seconds) {
         val project = Project(
           FreelancerId(UUID.randomUUID.toString),
-          null,
+          s"Title ${UUID.randomUUID.toString}",
+          "Description",
+          DateTime.now,
           Unread,
-          None,
-          None,
-          None,
-          None,
-          None,
-          None,
-          None,
-          None,
-          None
+          Some(DateTime.now),
+          Some(DateTime.now),
+          Some("open"),
+          Some("rate"),
+          Some(1000),
+          Some(10000),
+          Some("$"),
+          Some(5000),
+          Some("New Zeland")
         )
         channel.tell(Channel.PublishProject(project), self)
       })
