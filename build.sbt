@@ -25,7 +25,7 @@ scoverage.ScoverageSbtPlugin.instrumentSettings
 
 org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
 
-ScoverageKeys.minimumCoverage := 99
+ScoverageKeys.minimumCoverage := 40
 
 ScoverageKeys.failOnMinimumCoverage := true
 
