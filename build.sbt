@@ -25,6 +25,10 @@ scoverage.ScoverageSbtPlugin.instrumentSettings
 
 org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
 
+ScoverageKeys.minimumCoverage := 99
+
+ScoverageKeys.failOnMinimumCoverage := true
+
 Revolver.settings
 
 Revolver.enableDebugging(port = 5005, suspend = false)
