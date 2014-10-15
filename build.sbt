@@ -29,6 +29,11 @@ ScoverageKeys.minimumCoverage := 60
 
 ScoverageKeys.failOnMinimumCoverage := true
 
+ScoverageKeys.excludedPackages in ScoverageCompile := List(
+  "org\\.bidpulse\\.example\\..*",
+  "org\\.bidpulse\\.Boot"
+).mkString(";")
+
 Revolver.settings
 
 Revolver.enableDebugging(port = 5005, suspend = false)
