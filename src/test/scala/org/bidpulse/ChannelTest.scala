@@ -22,6 +22,8 @@ class ChannelTest(_system: ActorSystem) extends TestKit(_system) with ActorTesti
     TestKit.shutdownActorSystem(system)
   }
 
+  override def commonTimeout = super.commonTimeout * 10
+
   "Channel" when {
     "subscribed (without requesting to send updates)" should {
       "replay published projects with applied updates" in {
