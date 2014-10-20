@@ -1,31 +1,31 @@
 package org.bidpulse
 
-import org.specs2.mutable.Specification
-import spray.testkit.Specs2RouteTest
+import org.scalatest.{Matchers, WordSpec}
+import spray.testkit.{ScalatestRouteTest, Specs2RouteTest}
 import spray.http._
 import StatusCodes._
 
-class ServiceSpec extends Specification with Specs2RouteTest with Service {
+class ServiceSpec extends WordSpec with Matchers with ScalatestRouteTest with Service {
   def actorRefFactory = system
   
   "Service" should {
 
     "return a greeting for GET requests to the root path" in {
       Get() ~> myRoute ~> check {
-        responseAs[String] must contain("Hello")
+        responseAs[String] should include ("Hello")
       }
     }
 
     "leave GET requests to other paths unhandled" in {
       Get("/kermit") ~> myRoute ~> check {
-        handled must beFalse
+        handled should be (false)
       }
     }
 
     "return a MethodNotAllowed error for PUT requests to the root path" in {
       Put() ~> sealRoute(myRoute) ~> check {
-        status === MethodNotAllowed
-        responseAs[String] === "HTTP method not allowed, supported methods: GET"
+        status should equal (MethodNotAllowed)
+        responseAs[String] should equal ("HTTP method not allowed, supported methods: GET")
       }
     }
   }
