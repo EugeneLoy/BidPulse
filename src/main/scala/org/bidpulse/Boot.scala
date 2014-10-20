@@ -14,7 +14,7 @@ object Boot extends App {
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("bidpulse")
 
-  val pipeline = system.actorOf(Pipeline.props(Props[Channel], Map("dummy_source" -> Props[DummySource])))
+  val pipeline = system.actorOf(Pipeline.props(Channel.props("channel-persistence-id") , Map("dummy_source" -> Props[DummySource])))
   system.actorOf(Props(classOf[DummyPublisher], pipeline))
 
   // create and start our service actor

@@ -1,6 +1,7 @@
 package org.bidpulse.pipeline
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{ActorLogging, Props, Actor, ActorRef}
+import akka.persistence.PersistentActor
 import org.bidpulse.domain.{Project, ProjectUpdate, Projects}
 
 import scala.language.existentials
@@ -19,22 +20,44 @@ object Channel {
   case class ProjectPublished(project: Project) extends Event
   case class ProjectUpdatePublished(update: ProjectUpdate[_]) extends Event
 
+  def props(persistenceId: String) = Props(classOf[Channel], persistenceId)
+
 }
 
-class Channel extends Actor {
+class Channel(_persistenceId: String) extends PersistentActor with ActorLogging {
 
   import Channel._
 
   var subscribers = Set.empty[ActorRef]
+  var projects = Projects()
 
-  override def receive: Receive ={
+  override def persistenceId = _persistenceId
+
+  val receiveRecover: Receive = {
+    case ProjectPublished(project) =>
+      projects += project
+    case ProjectUpdatePublished(update) =>
+      projects ~= update
+  }
+
+  val receiveCommand: Receive = {
     case Subscribe(subscriber, false) =>
-      subscriber ! ProjectsPublished(Projects(Set.empty[Project]))
+      subscriber ! ProjectsPublished(projects)
     case Subscribe(subscriber, true) =>
-      subscriber ! ProjectsPublished(Projects(Set.empty[Project]))
+      subscriber ! ProjectsPublished(projects)
       subscribers += subscriber
     case PublishProject(project) =>
-      subscribers.foreach(_ ! ProjectPublished(project))
+      persist(ProjectPublished(project)) { event =>
+        projects += event.project
+        subscribers.foreach(_ ! event)
+      }
+    case PublishProjectUpdate(update) if projects contains update.projectId =>
+      persist(ProjectUpdatePublished(update)) { event =>
+        projects ~= event.update
+        subscribers.foreach(_ ! event)
+      }
   }
+
+  // TODO add snapshots
 
 }

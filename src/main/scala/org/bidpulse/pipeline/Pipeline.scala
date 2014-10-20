@@ -1,6 +1,6 @@
 package org.bidpulse.pipeline
 
-import java.util.UUID
+import java.util.UUID.randomUUID
 
 import akka.actor.{Terminated, ActorRef, Props, Actor}
 import akka.actor.Actor.Receive
@@ -24,7 +24,7 @@ class Pipeline(channelProps: Props, sourcesProps: Map[String, Props]) extends Ac
 
   val sources = for {
     (name, props) <- sourcesProps
-  } yield context.actorOf(props, s"${name}_${UUID.randomUUID.toString}")
+  } yield context.actorOf(props, s"${name}_${randomUUID}")
 
   sources.foreach(_ ! Source.Init(channel))
 

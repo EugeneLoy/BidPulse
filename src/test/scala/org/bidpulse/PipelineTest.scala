@@ -7,14 +7,9 @@ import org.bidpulse.pipeline.{Channel, Pipeline, Source}
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike, Matchers, WordSpec}
 import scala.concurrent.duration._
 
-class PipelineTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
+class PipelineTest(_system: ActorSystem) extends TestKit(_system) with ActorTestingUtils with WordSpecLike with Matchers with BeforeAndAfterAll {
 
   def this() = this(ActorSystem("PipelineTest"))
-
-  def dummy = Props(new Actor { def receive = { case _ => } })
-  def resendToTestActor = Props(new Actor { def receive = { case msg => testActor ! msg } })
-
-  def commonTimeout = (500 milliseconds).dilated
 
   override def afterAll {
     TestKit.shutdownActorSystem(system)

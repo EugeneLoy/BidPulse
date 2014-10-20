@@ -49,14 +49,36 @@ package object domain {
     // expect more fields to be added
   ) {
     def apply(update: ProjectUpdate[_]): Project = update match {
-      case ProjectUpdate(InList, Some(value: List)) => copy(inList = value)
+      case ProjectUpdate(`id`, InList, Some(value: List)) => copy(inList = value)
     }
   }
 
   /**
    * Represents projects known to the system at some point in time.
    */
-  case class Projects(projects: Set[Project])
+  case class Projects(projects: Set[Project] = Set.empty) {
+
+    def contains(id: ProjectId) = projects.exists(_.id == id)
+
+    /**
+     * Add project to the known projects.
+     */
+    def +(project: Project) = {
+      if (contains(project.id)) throw new IllegalArgumentException(s"Project: $project already exists in Projects: $this")
+      else Projects(projects + project)
+    }
+
+    /**
+     * Apply project update to known project.
+     */
+    def ~(update: ProjectUpdate[_]) = (projects.toList.partition(_.id == update.projectId): @unchecked) match {
+      case (project :: Nil, rest) =>
+        Projects(rest.toSet + project.apply(update))
+      case (Nil, _) =>
+        throw new IllegalArgumentException(s"Update: $update cannot be applied. Project does not exist in Projects: $this")
+    }
+
+  }
 
   /**
    * Represents update to the field of some project.
@@ -64,6 +86,6 @@ package object domain {
    * @param value updated field value
    * @tparam T type of the field
    */
-  case class ProjectUpdate[T](field: UpdateableField, value: Option[T])
+  case class ProjectUpdate[T](projectId: ProjectId, field: UpdateableField, value: Option[T])
 
 }

@@ -1,6 +1,6 @@
 package org.bidpulse.example
 
-import java.util.UUID
+import java.util.UUID.randomUUID
 
 import akka.actor.{ActorLogging, Actor, ActorRef, Cancellable}
 import org.bidpulse.domain.{FreelancerId, Project, Unread}
@@ -28,8 +28,8 @@ class DummySource extends Actor with Source with ActorLogging {
       // simulate new project arrival every 5 secs
       subscription = Some(context.system.scheduler.schedule(5 seconds, 5 seconds) {
         val project = Project(
-          FreelancerId(UUID.randomUUID.toString),
-          s"Title ${UUID.randomUUID.toString}",
+          FreelancerId(randomUUID.toString),
+          s"Title $randomUUID",
           "Description",
           DateTime.now,
           Unread,
