@@ -15,7 +15,7 @@ package object bidpulse {
 
   abstract class  ActorTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender with Suite with BeforeAndAfterAll {
 
-    override def afterAll {
+    override def afterAll = {
       TestKit.shutdownActorSystem(system)
     }
 
