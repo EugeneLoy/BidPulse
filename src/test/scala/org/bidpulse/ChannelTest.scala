@@ -2,25 +2,20 @@ package org.bidpulse
 
 import java.util.UUID.randomUUID
 
-import akka.actor.{Kill, Terminated, PoisonPill, ActorSystem}
-import akka.testkit._
+import akka.actor.{Terminated, PoisonPill, ActorSystem}
 import com.typesafe.config.ConfigFactory
 import org.bidpulse.domain.{ProjectUpdate, InList, Trash, Projects}
 import org.bidpulse.pipeline.Channel._
 import org.bidpulse.pipeline.Channel
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
-class ChannelTest(_system: ActorSystem) extends TestKit(_system) with ActorTestingUtils with WordSpecLike with Matchers with BeforeAndAfterAll {
+class ChannelTest(_system: ActorSystem) extends ActorTest(_system) with WordSpecLike with Matchers with BeforeAndAfterAll {
 
   def this() = this(ActorSystem("ChannelTest", ConfigFactory.load(ConfigFactory.parseString("""
     akka.persistence.snapshot-store.local.dir = "target/snapshots"
     akka.persistence.journal.leveldb.dir = "target/journal"
     akka.persistence.journal.leveldb.native = off
   """))))
-
-  override def afterAll {
-    TestKit.shutdownActorSystem(system)
-  }
 
   override def commonTimeout = super.commonTimeout * 10
 

@@ -1,5 +1,3 @@
 package org.bidpulse.pipeline
 
-trait Publisher {
-
-}
+trait Publisher

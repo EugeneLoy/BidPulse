@@ -1,19 +1,13 @@
 package org.bidpulse
 
-import akka.actor.Actor.Receive
-import akka.actor.{Actor, Props, ActorSystem}
+import akka.actor.{Props, ActorSystem}
 import akka.testkit._
 import org.bidpulse.pipeline.{Channel, Pipeline, Source}
-import org.scalatest.{BeforeAndAfterAll, WordSpecLike, Matchers, WordSpec}
-import scala.concurrent.duration._
+import org.scalatest.{WordSpecLike, Matchers}
 
-class PipelineTest(_system: ActorSystem) extends TestKit(_system) with ActorTestingUtils with WordSpecLike with Matchers with BeforeAndAfterAll {
+class PipelineTest(_system: ActorSystem) extends ActorTest(_system) with WordSpecLike with Matchers {
 
   def this() = this(ActorSystem("PipelineTest"))
-
-  override def afterAll {
-    TestKit.shutdownActorSystem(system)
-  }
 
   "Pipeline" when {
     "created" should {
@@ -50,17 +44,12 @@ class PipelineTest(_system: ActorSystem) extends TestKit(_system) with ActorTest
   it should {
     "correctly track publishers" in {
       val publisher = TestProbe()
-      val pipeline = TestActorRef[Pipeline](Pipeline.props(resendToTestActor, Map.empty[String, Props]))
+      val pipeline = TestActorRef[Pipeline](Pipeline.props(dummy, Map.empty[String, Props]))
       publisher.send(pipeline, Pipeline.Subscribe)
-      within(commonTimeout) {
-        expectMsgClass(classOf[Channel.Init])
-        expectMsgClass(classOf[Channel.Subscribe])
-      }
 
       pipeline.underlyingActor.publishers should contain (publisher.ref)
 
-      system.stop(publisher.ref)
-      Thread.sleep(500) // TODO handle this without blocking
+      pipeline.underlyingActor.context.stop(publisher.ref)
 
       pipeline.underlyingActor.publishers should not contain (publisher.ref)
     }

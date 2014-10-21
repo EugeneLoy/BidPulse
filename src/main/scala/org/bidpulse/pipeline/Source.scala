@@ -11,6 +11,4 @@ object Source {
 
 }
 
-trait Source {
-
-}
+trait Source
