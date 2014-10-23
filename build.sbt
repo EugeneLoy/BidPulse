@@ -4,7 +4,9 @@ version       := "0.1"
 
 scalaVersion  := "2.11.2"
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature")
+
+resolvers += "Spray" at "http://repo.spray.io"
 
 libraryDependencies ++= {
   val akkaV = "2.3.5"
@@ -12,6 +14,7 @@ libraryDependencies ++= {
   Seq(
     "io.spray"            %%  "spray-can"                     % sprayV,
     "io.spray"            %%  "spray-routing"                 % sprayV,
+    "com.wandoulabs.akka" %%  "spray-websocket"               % "0.1.3",
     "com.typesafe.akka"   %%  "akka-actor"                    % akkaV,
     "com.typesafe.akka"   %%  "akka-persistence-experimental" % akkaV,
     "joda-time"           %   "joda-time"                     % "2.5",
