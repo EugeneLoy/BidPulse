@@ -1,5 +1,6 @@
 package org.bidpulse.server
 
+import akka.actor.Actor._
 import akka.actor.{Actor, Props, ActorRef}
 import spray.can.websocket
 import spray.can.websocket.FrameCommandFailed
@@ -23,6 +24,8 @@ class WorkerService(val serverConnection: ActorRef) extends Actor with RoutedSer
       // TODO figure out how to handle this
       log.error("frame command failed", x)
   }
+
+  val routing: Receive = runRoute(route)
 
   override def receive = handshaking orElse routing orElse closeLogic
 
