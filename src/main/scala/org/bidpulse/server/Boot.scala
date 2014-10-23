@@ -1,4 +1,4 @@
-package server
+package org.bidpulse.server
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO

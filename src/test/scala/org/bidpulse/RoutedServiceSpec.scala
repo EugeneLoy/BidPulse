@@ -1,7 +1,7 @@
 package org.bidpulse
 
 import org.scalatest.{Matchers, WordSpec}
-import server.RoutedService
+import org.bidpulse.server.RoutedService
 import spray.testkit.{ScalatestRouteTest, Specs2RouteTest}
 import spray.http._
 import StatusCodes._

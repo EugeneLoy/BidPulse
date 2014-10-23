@@ -1,4 +1,4 @@
-package server
+package org.bidpulse.server
 
 import java.util.UUID.randomUUID
 

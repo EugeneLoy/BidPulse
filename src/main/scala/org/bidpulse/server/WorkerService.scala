@@ -1,4 +1,4 @@
-package server
+package org.bidpulse.server
 
 import akka.actor.{Actor, Props, ActorRef}
 import spray.can.websocket
@@ -18,15 +18,12 @@ class WorkerService(val serverConnection: ActorRef) extends Actor with RoutedSer
   override def businessLogic: Receive = {
     case x: TextFrame =>
       log.info(x.toString)
-      sender() ! x
+      sender ! x
     case x: FrameCommandFailed =>
       // TODO figure out how to handle this
       log.error("frame command failed", x)
   }
 
-  // TODO optimize
-  def businessLogicNoUpgrade: Receive = runRoute(route)
-
-  override def receive = handshaking orElse businessLogicNoUpgrade orElse closeLogic
+  override def receive = handshaking orElse routing orElse closeLogic
 
 }
