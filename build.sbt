@@ -29,13 +29,13 @@ scoverage.ScoverageSbtPlugin.instrumentSettings
 
 org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
 
-ScoverageKeys.minimumCoverage := 60
+ScoverageKeys.minimumCoverage := 80
 
 ScoverageKeys.failOnMinimumCoverage := true
 
 ScoverageKeys.excludedPackages in ScoverageCompile := List(
   "org\\.bidpulse\\.example\\..*",
-  "org\\.bidpulse\\.Boot"
+  "org\\.bidpulse\\.server\\..*" // TODO it might be worth to cover some potion of this package
 ).mkString(";")
 
 Revolver.settings
